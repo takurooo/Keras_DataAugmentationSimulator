@@ -161,10 +161,6 @@ class Sim:
         # make button
         # ---------------------------
         self.button = {}
-        self.button['open'] = \
-            WidgetButton(self.AX_RECT_OPEN_BUTTON,
-                         'open',
-                         {'on_clicked': self.event_open_clicked})
         self.button['quit'] = \
             WidgetButton(self.AX_RECT_QUIT_BUTTON,
                          'quit',
@@ -224,18 +220,6 @@ class Sim:
         for key in self.gen_params.keys():
             if key in self.slider.keys():
                 self.gen_params[key] = self.slider[key].get_val()
-
-    def event_open_clicked(self, event):
-        print("ask filename")
-        file_path = tkfd.askopenfilename()
-        print(file_path)
-        self.img = np.asarray(Image.open(file_path))
-        # self.img.flags.writeable = True
-
-        plt.axes(self.ax_img)  # set img_ax
-        plt.title(file_path)
-
-        self.start = True
 
     def event_quit_clicked(self, event):
         print("quit")
