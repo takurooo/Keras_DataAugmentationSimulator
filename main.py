@@ -198,24 +198,10 @@ class Sim:
 
     def run(self):
 
-        cnt = 0
         while True:
 
             if self.quit:
-                # break
-                img = self.convert(self.img)
-
-                plt.axes(self.ax_img)  # set img_ax
-                self.img_plot.set_data(img)
-                plt.savefig("{}.jpg".format(cnt))
-
-                self.prev_img = img
-
-                plt.pause(self.interval)  # seconds
-
-                cnt += 1
-                if cnt >= 20:
-                    break
+                break
 
             if self.start:
                 img = self.convert(self.img)
