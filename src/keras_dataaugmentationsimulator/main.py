@@ -14,10 +14,11 @@ import matplotlib.animation as animation
 
 from keras.preprocessing import image
 from keras.preprocessing.image import ImageDataGenerator
+
 # --------------------------------------
 # define
 # --------------------------------------
-AXCOLOR = 'lightgoldenrodyellow'
+AXCOLOR = "lightgoldenrodyellow"
 
 # --------------------------------------
 # class
@@ -33,7 +34,7 @@ class WidgetSlider:
             self._set_callback(name, func)
 
     def _set_callback(self, name, func):
-        if name == 'on_changed':
+        if name == "on_changed":
             self.widget.on_changed(func)
         else:
             print("name not found : ", name)
@@ -45,14 +46,13 @@ class WidgetSlider:
 class WidgetButton:
     def __init__(self, rect, name, callback_dict):
         self.axes = plt.axes(rect, facecolor=AXCOLOR)
-        self.widget = Button(self.axes, name,
-                             color=AXCOLOR, hovercolor='0.975')
+        self.widget = Button(self.axes, name, color=AXCOLOR, hovercolor="0.975")
 
         for name, func in callback_dict.items():
             self._set_callback(name, func)
 
     def _set_callback(self, name, func):
-        if name == 'on_clicked':
+        if name == "on_clicked":
             self.widget.on_clicked(func)
         else:
             print("name not found : ", name)
@@ -67,14 +67,14 @@ class WidgetRadioButton:
             self._set_callback(name, func)
 
     def _set_callback(self, name, func):
-        if name == 'on_clicked':
+        if name == "on_clicked":
             self.widget.on_clicked(func)
         else:
             print("name not found : ", name)
 
 
 class Sim:
-    AXCOLOR = 'lightgoldenrodyellow'
+    AXCOLOR = "lightgoldenrodyellow"
     BASE_WINDOW_WH = (9, 6)
 
     # widget position [left, bottom, width, height]
@@ -100,12 +100,12 @@ class Sim:
         self.interval = 0.5
 
         self.gen_params = {}
-        self.gen_params['rotate'] = 0
-        self.gen_params['width_shift'] = 0
-        self.gen_params['height_shift'] = 0
-        self.gen_params['shear'] = 0
-        self.gen_params['zoom'] = 0
-        self.gen_params['fill_mode'] = 'nearest'
+        self.gen_params["rotate"] = 0
+        self.gen_params["width_shift"] = 0
+        self.gen_params["height_shift"] = 0
+        self.gen_params["shear"] = 0
+        self.gen_params["zoom"] = 0
+        self.gen_params["fill_mode"] = "nearest"
         self.init_widgets(img_path)
 
     def init_widgets(self, img_path):
@@ -122,80 +122,100 @@ class Sim:
         # make slider
         # ---------------------------
         self.slider = {}
-        self.slider['rotate'] = \
-            WidgetSlider(self.AX_RECT_ROTATE_SLIDER,
-                         'rotate', 0, 180, 0,
-                         {'on_changed': self.event_slider_changed})
-        self.slider['width_shift'] = \
-            WidgetSlider(self.AX_RECT_WSHIFT_SLIDER,
-                         'width_shift', 0, 1, 0,
-                         {'on_changed': self.event_slider_changed})
-        self.slider['height_shift'] = \
-            WidgetSlider(self.AX_RECT_HSHIFT_SLIDER,
-                         'height_shift', 0, 1, 0,
-                         {'on_changed': self.event_slider_changed})
-        self.slider['shear'] = \
-            WidgetSlider(self.AX_RECT_SHEAR_SLIDER,
-                         'shear', 0, 180, 0,
-                         {'on_changed': self.event_slider_changed})
-        self.slider['zoom'] = \
-            WidgetSlider(self.AX_RECT_ZOOM_SLIDER,
-                         'zoom', 0, 1, 0,
-                         {'on_changed': self.event_slider_changed})
-        self.slider['interval'] = \
-            WidgetSlider(self.AX_RECT_INTERVAL_SLIDER,
-                         'interval', 0.1, 1, self.interval,
-                         {'on_changed': self.event_slider_changed})
+        self.slider["rotate"] = WidgetSlider(
+            self.AX_RECT_ROTATE_SLIDER,
+            "rotate",
+            0,
+            180,
+            0,
+            {"on_changed": self.event_slider_changed},
+        )
+        self.slider["width_shift"] = WidgetSlider(
+            self.AX_RECT_WSHIFT_SLIDER,
+            "width_shift",
+            0,
+            1,
+            0,
+            {"on_changed": self.event_slider_changed},
+        )
+        self.slider["height_shift"] = WidgetSlider(
+            self.AX_RECT_HSHIFT_SLIDER,
+            "height_shift",
+            0,
+            1,
+            0,
+            {"on_changed": self.event_slider_changed},
+        )
+        self.slider["shear"] = WidgetSlider(
+            self.AX_RECT_SHEAR_SLIDER,
+            "shear",
+            0,
+            180,
+            0,
+            {"on_changed": self.event_slider_changed},
+        )
+        self.slider["zoom"] = WidgetSlider(
+            self.AX_RECT_ZOOM_SLIDER,
+            "zoom",
+            0,
+            1,
+            0,
+            {"on_changed": self.event_slider_changed},
+        )
+        self.slider["interval"] = WidgetSlider(
+            self.AX_RECT_INTERVAL_SLIDER,
+            "interval",
+            0.1,
+            1,
+            self.interval,
+            {"on_changed": self.event_slider_changed},
+        )
 
         # ---------------------------
         # make radio button
         # ---------------------------
         self.radio_button = {}
-        self.radio_button['fill_mode'] = \
-            WidgetRadioButton(self.AX_RECT_FILLMODE_RADIO,
-                              ('nearest', 'constant',
-                               'reflect', 'wrap'),
-                              {'on_clicked': self.event_fillmode_clicked})
+        self.radio_button["fill_mode"] = WidgetRadioButton(
+            self.AX_RECT_FILLMODE_RADIO,
+            ("nearest", "constant", "reflect", "wrap"),
+            {"on_clicked": self.event_fillmode_clicked},
+        )
 
         # ---------------------------
         # make button
         # ---------------------------
         self.button = {}
-        self.button['quit'] = \
-            WidgetButton(self.AX_RECT_QUIT_BUTTON,
-                         'quit',
-                         {'on_clicked': self.event_quit_clicked})
-        self.button['start'] = \
-            WidgetButton(self.AX_RECT_START_BUTTON,
-                         'start',
-                         {'on_clicked': self.event_start_clicked})
-        self.button['stop'] = \
-            WidgetButton(self.AX_RECT_STOP_BUTTON,
-                         'stop',
-                         {'on_clicked': self.event_stop_clicked})
+        self.button["quit"] = WidgetButton(
+            self.AX_RECT_QUIT_BUTTON, "quit", {"on_clicked": self.event_quit_clicked}
+        )
+        self.button["start"] = WidgetButton(
+            self.AX_RECT_START_BUTTON, "start", {"on_clicked": self.event_start_clicked}
+        )
+        self.button["stop"] = WidgetButton(
+            self.AX_RECT_STOP_BUTTON, "stop", {"on_clicked": self.event_stop_clicked}
+        )
 
     def convert(self, x):
-        datagen = ImageDataGenerator(featurewise_center=False,
-                                     samplewise_center=False,
-                                     fill_mode=self.gen_params['fill_mode'],
-                                     rotation_range=self.gen_params['rotate'],
-                                     width_shift_range=self.gen_params['width_shift'],
-                                     height_shift_range=self.gen_params['height_shift'],
-                                     shear_range=self.gen_params['shear'],
-                                     zoom_range=self.gen_params['zoom'],
-                                     horizontal_flip=False,
-                                     vertical_flip=False,
-                                     rescale=0
-                                     )
+        datagen = ImageDataGenerator(
+            featurewise_center=False,
+            samplewise_center=False,
+            fill_mode=self.gen_params["fill_mode"],
+            rotation_range=self.gen_params["rotate"],
+            width_shift_range=self.gen_params["width_shift"],
+            height_shift_range=self.gen_params["height_shift"],
+            shear_range=self.gen_params["shear"],
+            zoom_range=self.gen_params["zoom"],
+            horizontal_flip=False,
+            vertical_flip=False,
+            rescale=0,
+        )
 
         x = x.reshape((1,) + x.shape)
         for d in datagen.flow(x, batch_size=1):
             return np.uint8(d[0])
 
     def run(self):
-
         while True:
-
             if self.quit:
                 break
 
@@ -215,7 +235,7 @@ class Sim:
 
     def event_slider_changed(self, val):
         # get all slider values
-        self.interval = self.slider['interval'].get_val()
+        self.interval = self.slider["interval"].get_val()
 
         for key in self.gen_params.keys():
             if key in self.slider.keys():
@@ -226,21 +246,20 @@ class Sim:
         self.quit = True
 
     def event_start_clicked(self, event):
-        print("random_erasing : {} -> {}".format(self.start, 'True'))
+        print("random_erasing : {} -> {}".format(self.start, "True"))
         self.start = True
 
     def event_stop_clicked(self, event):
-        print("random_erasing : {} -> {}".format(self.start, 'False'))
+        print("random_erasing : {} -> {}".format(self.start, "False"))
         self.start = False
 
     def event_fillmode_clicked(self, label):
-        self.gen_params['fill_mode'] = label
+        self.gen_params["fill_mode"] = label
 
 
 def get_args():
     parser = argparse.ArgumentParser(description="ImageGenerator")
-    parser.add_argument("img_path", type=str,
-                        help="path2your_image", default=None)
+    parser.add_argument("img_path", type=str, help="path2your_image", default=None)
     return parser.parse_args()
 
 
