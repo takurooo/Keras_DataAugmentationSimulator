@@ -1,28 +1,14 @@
-# --------------------------------------
-# import
-# --------------------------------------
-import os
 import argparse
-import tkinter.filedialog as tkfd
-
-from PIL import Image
-import numpy as np
 
 import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider, Button, RadioButtons
-import matplotlib.animation as animation
-
+import numpy as np
 from keras.preprocessing import image
 from keras.preprocessing.image import ImageDataGenerator
+from matplotlib.widgets import Button, RadioButtons, Slider
+from PIL import Image
 
-# --------------------------------------
-# define
-# --------------------------------------
+
 AXCOLOR = "lightgoldenrodyellow"
-
-# --------------------------------------
-# class
-# --------------------------------------
 
 
 class WidgetSlider:
@@ -115,12 +101,10 @@ class Sim:
 
         self.fig = plt.figure(figsize=self.BASE_WINDOW_WH)
         self.ax_img = plt.axes(self.AX_RECT_IMG)
-        plt.axes(self.ax_img)  # set img_ax
+        plt.axes(self.ax_img)
         plt.title(img_path)
         self.img_plot = plt.imshow(self.img)
-        # ---------------------------
-        # make slider
-        # ---------------------------
+
         self.slider = {}
         self.slider["rotate"] = WidgetSlider(
             self.AX_RECT_ROTATE_SLIDER,
@@ -171,9 +155,6 @@ class Sim:
             {"on_changed": self.event_slider_changed},
         )
 
-        # ---------------------------
-        # make radio button
-        # ---------------------------
         self.radio_button = {}
         self.radio_button["fill_mode"] = WidgetRadioButton(
             self.AX_RECT_FILLMODE_RADIO,
@@ -181,9 +162,6 @@ class Sim:
             {"on_clicked": self.event_fillmode_clicked},
         )
 
-        # ---------------------------
-        # make button
-        # ---------------------------
         self.button = {}
         self.button["quit"] = WidgetButton(
             self.AX_RECT_QUIT_BUTTON, "quit", {"on_clicked": self.event_quit_clicked}
@@ -222,7 +200,7 @@ class Sim:
             if self.start:
                 img = self.convert(self.img)
 
-                plt.axes(self.ax_img)  # set img_ax
+                plt.axes(self.ax_img)
                 self.img_plot.set_data(img)
 
                 self.prev_img = img
@@ -263,17 +241,11 @@ def get_args():
     return parser.parse_args()
 
 
-# --------------------------------------
-# function
-# --------------------------------------
 def main(args):
     img_path = args.img_path
     sim = Sim(img_path)
     sim.run()
 
 
-# --------------------------------------
-# main
-# --------------------------------------
 if __name__ == "__main__":
     main(get_args())
